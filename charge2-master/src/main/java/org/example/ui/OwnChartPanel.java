@@ -6,6 +6,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
@@ -46,6 +47,7 @@ public class OwnChartPanel extends JPanel {
         add(grid, BorderLayout.CENTER);
         add(totalLabel, BorderLayout.SOUTH);
 
+
         ActionListener refresh = e -> reload();
         yearBox.addActionListener(refresh);
         monthBox.addActionListener(refresh);
@@ -54,8 +56,11 @@ public class OwnChartPanel extends JPanel {
 
     private JFreeChart createPieChart(String title, DefaultPieDataset dataset) {
         JFreeChart chart = ChartFactory.createPieChart(title, dataset, true, true, false);
+        chart.setTitle(new TextTitle(title, new Font("SansSerif", Font.BOLD, 16)));
         PiePlot plot = (PiePlot) chart.getPlot();
         plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0} ({2})")); // 含百分比
+        plot.setLabelFont(new Font("SansSerif", Font.PLAIN, 12));
+        chart.getLegend().setItemFont(new Font("SansSerif", Font.PLAIN, 12));
         return chart;
     }
 
