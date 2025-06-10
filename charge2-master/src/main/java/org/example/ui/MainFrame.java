@@ -16,6 +16,30 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
+        JPanel topPanel = new JPanel(new BorderLayout());
+
+        JLabel titleLabel = new JLabel("記帳系統");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        topPanel.add(titleLabel, BorderLayout.WEST);
+
+        JButton logoutButton = new JButton("登出");
+        logoutButton.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "確定要登出？", "登出確認", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                dispose();
+                SwingUtilities.invokeLater(() -> new LoginFrame().setVisible(true));
+            }
+        });
+
+        JPanel logoutPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        logoutPanel.add(logoutButton);
+        topPanel.add(logoutPanel, BorderLayout.EAST);
+
+        add(topPanel, BorderLayout.NORTH); // ➕ 加到主視窗上方
+
+        // 下方分頁內容
         tabbedPane = new JTabbedPane();
         tabbedPane.setTabPlacement(JTabbedPane.BOTTOM);
 
