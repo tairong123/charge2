@@ -7,10 +7,10 @@ public class MainFrame extends JFrame {
     private final int userId;
     private final JTabbedPane tabbedPane;
 
-    public MainFrame(int userId) {
+    public MainFrame(int userId) {//主要介面
         this.userId = userId;
 
-        setTitle("記帳程式");
+        setTitle("記帳小幫手");
         setSize(900, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -18,13 +18,13 @@ public class MainFrame extends JFrame {
 
         JPanel topPanel = new JPanel(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("記帳系統");
+        JLabel titleLabel = new JLabel("記帳小幫手");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         topPanel.add(titleLabel, BorderLayout.WEST);
 
         JButton logoutButton = new JButton("登出");
-        logoutButton.addActionListener(e -> {
+        logoutButton.addActionListener(e -> {//偵測登出並詢問
             int confirm = JOptionPane.showConfirmDialog(this,
                     "確定要登出？", "登出確認", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
@@ -37,7 +37,7 @@ public class MainFrame extends JFrame {
         logoutPanel.add(logoutButton);
         topPanel.add(logoutPanel, BorderLayout.EAST);
 
-        add(topPanel, BorderLayout.NORTH); // ➕ 加到主視窗上方
+        add(topPanel, BorderLayout.NORTH);
 
         // 下方分頁內容
         tabbedPane = new JTabbedPane();
@@ -52,7 +52,7 @@ public class MainFrame extends JFrame {
         add(tabbedPane, BorderLayout.CENTER);
     }
 
-    private void refreshTab() {
+    private void refreshTab() { //更新選擇到的畫面
         int index = tabbedPane.getSelectedIndex();
         String title = tabbedPane.getTitleAt(index);
         switch (title) {
