@@ -23,7 +23,7 @@ public class OwnChartPanel extends JPanel {
     private final DefaultPieDataset incomeDataset = new DefaultPieDataset();
     private final DefaultPieDataset expenseDataset = new DefaultPieDataset();
 
-    public OwnChartPanel(int userId) {
+    public OwnChartPanel(int userId) {//收支介面
         this.userId = userId;
         setLayout(new BorderLayout());
 
@@ -54,7 +54,7 @@ public class OwnChartPanel extends JPanel {
         reload();
     }
 
-    private JFreeChart createPieChart(String title, DefaultPieDataset dataset) {
+    private JFreeChart createPieChart(String title, DefaultPieDataset dataset) {//建立圖表
         JFreeChart chart = ChartFactory.createPieChart(title, dataset, true, true, false);
         chart.setTitle(new TextTitle(title, new Font("SansSerif", Font.BOLD, 16)));
         PiePlot plot = (PiePlot) chart.getPlot();
@@ -64,7 +64,7 @@ public class OwnChartPanel extends JPanel {
         return chart;
     }
 
-    private void reload() {
+    private void reload() {//刷新畫面
         incomeDataset.clear();
         expenseDataset.clear();
         String year = (String) yearBox.getSelectedItem();
@@ -109,7 +109,7 @@ public class OwnChartPanel extends JPanel {
         }
     }
 
-    private void refreshYearBox(int userId) {
+    private void refreshYearBox(int userId) {//即時更新年份選單
         try {
             Connection conn = DatabaseManager.getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT DISTINCT strftime('%Y', date) y FROM records WHERE user_id=?");
