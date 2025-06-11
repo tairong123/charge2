@@ -30,8 +30,7 @@ public class TodayPanel extends JPanel {
     public TodayPanel(int userId) {
         this.userId = userId;
         setLayout(new BorderLayout());
-
-        // 上方選單區
+        //上方選單區域
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton addButton = new JButton("新增記帳");
         topPanel.add(addButton);
@@ -44,25 +43,25 @@ public class TodayPanel extends JPanel {
         topPanel.add(dayBox);
         add(topPanel, BorderLayout.NORTH);
 
-        // 表格
+        // 記帳表格
         String[] columnNames = {"ID", "類別", "金額", "日期", "備註", "類型", "刪除"};
         model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
         table.getColumnModel().getColumn(0).setMinWidth(0); // 隱藏 ID 欄
         table.getColumnModel().getColumn(0).setMaxWidth(0);
         table.getColumn("刪除").setCellRenderer(new ButtonRenderer());
-        table.getColumn("刪除").setCellEditor(new DeleteButtonEditor(
+        table.getColumn("刪除").setCellEditor(new DeleteButtonEditor(//刪除記帳
                 id -> {
                     try {
                         PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement("DELETE FROM records WHERE id=?");
                         stmt.setInt(1, id);
                         stmt.executeUpdate();
-                        refreshYearBoxOnly(yearBox, userId); // 年份即時更新
+                        refreshYearBoxOnly(yearBox, userId);
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
                 },
-                () -> reload() // 執行完 reload，確保 UI 與 row index 正確同步
+                () -> reload()
         ));
 
         table.getColumn("類型").setCellEditor(new DefaultCellEditor(new JComboBox<>(new String[]{"支出", "收入"})));
@@ -107,7 +106,7 @@ public class TodayPanel extends JPanel {
         dayBox.setSelectedItem(String.format("%02d", today.getDayOfMonth()));
     }
 
-    private void updateDayBox() {
+    private void updateDayBox() { //抓年份跟月份決定有幾天可以選
         dayBox.removeAllItems();
         int y = Integer.parseInt((String) yearBox.getSelectedItem());
         int m = Integer.parseInt((String) monthBox.getSelectedItem());
@@ -117,7 +116,7 @@ public class TodayPanel extends JPanel {
         }
     }
 
-    private void reload() {
+    private void reload() {// 刷新畫面
         if (table.isEditing()) {
             table.getCellEditor().stopCellEditing();
         }
@@ -128,7 +127,7 @@ public class TodayPanel extends JPanel {
         updateStatsByDate(date);
     }
 
-    private void loadRecordsByDate(String date) {
+    private void loadRecordsByDate(String date) {   //透過日期找記帳紀錄顯示
         model.setRowCount(0);
         try {
             Connection conn = DatabaseManager.getConnection();
@@ -152,7 +151,7 @@ public class TodayPanel extends JPanel {
         }
     }
 
-    private void updateStatsByDate(String date) {
+    private void updateStatsByDate(String date) {//計算收入 支出 淨收入
         double income = 0, expense = 0;
         try {
             Connection conn = DatabaseManager.getConnection();
@@ -174,7 +173,7 @@ public class TodayPanel extends JPanel {
         netLabel.setText("淨收入：" + (income - expense));
     }
 
-    private void handleTableEdit(TableModelEvent e) {
+    private void handleTableEdit(TableModelEvent e) {//編輯記帳控制
         if (e.getType() != TableModelEvent.UPDATE) return;
 
         int row = e.getFirstRow();
@@ -192,7 +191,7 @@ public class TodayPanel extends JPanel {
         };
         if (field == null) return;
 
-        try {
+        try {//防呆
             String valueStr = model.getValueAt(row, col).toString();
             if (field.equals("amount") && !InputValidator.isValidAmount(valueStr)) {
                 InputValidator.showErrorAndCancelEdit(table, "金額需為數字(非負數)！", 0.0, row, col);
@@ -217,7 +216,7 @@ public class TodayPanel extends JPanel {
         }
     }
 
-    private void refreshYearBoxOnly(JComboBox<String> box, int userId) {
+    private void refreshYearBoxOnly(JComboBox<String> box, int userId) { //按造記帳紀錄更新年份選單
         ActionListener[] listeners = box.getActionListeners();
         for (ActionListener al : listeners) box.removeActionListener(al);
 
