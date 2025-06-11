@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class RecordDialog {
+public class RecordDialog {//記帳畫面
     private final int userId;
     private final JComboBox<String> yearBox;
     private final JComboBox<String> typeBox = new JComboBox<>(new String[]{"支出", "收入"});
@@ -39,7 +39,7 @@ public class RecordDialog {
         }
     }
 
-    private boolean validateInputs() {
+    private boolean validateInputs() { //防呆機制
         String amountText = amountField.getText();
         try {
             double amount = Double.parseDouble(amountText);
@@ -63,7 +63,7 @@ public class RecordDialog {
         return true;
     }
 
-    private void insertRecord() {
+    private void insertRecord() {// 新增記帳 抓使用者輸入資料
         try {
             Connection conn = DatabaseManager.getConnection();
             PreparedStatement ps = conn.prepareStatement(
