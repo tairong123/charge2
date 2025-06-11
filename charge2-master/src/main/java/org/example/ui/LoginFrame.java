@@ -5,7 +5,7 @@ import org.example.service.UserService;
 import javax.swing.*;
 
 public class LoginFrame extends JFrame {
-    public LoginFrame() {
+    public LoginFrame() { // 登入介面
         setTitle("登入");
         setSize(300, 200);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -43,15 +43,15 @@ public class LoginFrame extends JFrame {
             String password = new String(passwordText.getPassword());
             int userId = UserService.login(username, password);
 
-            if (userId != -1) {
-                dispose(); // 關閉登入視窗
+            if (userId != -1) {//登入成功 關閉登入介面進入主要介面
+                dispose();
                 new MainFrame(userId).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "帳號或密碼錯誤");
             }
         });
 
-        registerButton.addActionListener(e -> {
+        registerButton.addActionListener(e -> { //註冊視窗
             JTextField nameField = new JTextField();
             JTextField userField = new JTextField();
             JPasswordField passField = new JPasswordField();
@@ -64,7 +64,7 @@ public class LoginFrame extends JFrame {
                         userField.getText(),
                         new String(passField.getPassword())
                 );
-                JOptionPane.showMessageDialog(this, success ? "註冊成功！" : "註冊失敗");
+                JOptionPane.showMessageDialog(this, success ? "註冊成功！" : "已有此帳號");
             }
         });
     }
