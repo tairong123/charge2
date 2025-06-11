@@ -24,13 +24,26 @@ public class UserService {
     // 註冊功能：成功回傳 true，失敗回傳 false
     public static boolean register(String name, String username, String password) {
         try {
-            String sql = "INSERT INTO users(name, username, password) VALUES(?,?,?)";
-            PreparedStatement stmt = DatabaseManager.getConnection().prepareStatement(sql);
-            stmt.setString(1, name);
-            stmt.setString(2, username);
-            stmt.setString(3, password);
-            stmt.executeUpdate();
+            // 檢查使用者名稱是否已存在
+            PreparedStatement checkStmt = DatabaseManager.getConnection().prepareStatement(
+                    "SELECT COUNT(*) FROM users WHERE username = ?"
+            );
+            checkStmt.setString(1, username);
+            ResultSet rs = checkStmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return false; // 帳號已存在
+            }
+
+            // 插入新使用者
+            PreparedStatement insertStmt = DatabaseManager.getConnection().prepareStatement(
+                    "INSERT INTO users (name, username, password) VALUES (?, ?, ?)"
+            );
+            insertStmt.setString(1, name);
+            insertStmt.setString(2, username);
+            insertStmt.setString(3, password);
+            insertStmt.executeUpdate();
             return true;
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
