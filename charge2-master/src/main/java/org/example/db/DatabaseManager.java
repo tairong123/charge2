@@ -5,7 +5,7 @@ import java.sql.*;
 public class DatabaseManager {
     private static Connection connection;
 
-    public static void connect() {
+    public static void connect() { //建立資料庫
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:accounting.db");
             Statement stmt = connection.createStatement();
