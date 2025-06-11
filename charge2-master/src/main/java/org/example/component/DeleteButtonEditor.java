@@ -4,14 +4,14 @@ import javax.swing.*;
 import javax.swing.table.TableCellEditor;
 import java.awt.*;
 
-public class DeleteButtonEditor extends AbstractCellEditor implements TableCellEditor {
+public class DeleteButtonEditor extends AbstractCellEditor implements TableCellEditor { //刪除按鈕實作
     private final JButton button = new JButton("刪除");
     private JTable table;
     private int row;
     private final DeleteAction deleteAction;
     private final Runnable reloadCallback;
 
-    public DeleteButtonEditor(DeleteAction deleteAction, Runnable reloadCallback) {
+    public DeleteButtonEditor(DeleteAction deleteAction, Runnable reloadCallback) { //刪除詢問
         this.deleteAction = deleteAction;
         this.reloadCallback = reloadCallback;
 
