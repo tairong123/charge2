@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
-public class ButtonRenderer extends JButton implements TableCellRenderer {
+public class ButtonRenderer extends JButton implements TableCellRenderer { //使刪除按鈕元件化
 
     public ButtonRenderer() {
         super("刪除");
